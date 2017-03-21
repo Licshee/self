@@ -1,5 +1,13 @@
 this.__lastLoaded__ = function($){
-this && $.call(this);
+if(this == null)
+  return $;
+var that = this.__loadedThis__;
+if(that === null)
+  return $;
+if(typeof that === "object")
+  $.call(that);
+else if(this.navigator)
+  $.call(this);
 return $;
 }(function self(){
   var me = this;
