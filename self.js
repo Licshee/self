@@ -6,7 +6,7 @@ if(that === null)
   return $;
 if(typeof that === "object")
   $.call(that);
-else if(this.navigator)
+else if(that == null && this.navigator)
   $.call(this);
 return $;
 }(function self(){
