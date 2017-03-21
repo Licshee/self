@@ -9,16 +9,14 @@ if(typeof that === "object")
 else if(that == null && this.navigator)
   $.call(this);
 return $;
-}(function self(ctxt){
+}(function self($){
   var me = this;
   me.self||(me.self=me);
 
-  if(ctxt == null || typeof ctxt !== "object")
-    ctxt = { String: String, Object: Object };
-  var object = ctxt.Object;
+  var object = $ && $.Object || Object;
   var object$prototype = object.prototype;
   var object$toString = object$prototype.toString;
-  var string = ctxt.String;
+  var string = $ && $.String || String;
   function isString($){ return object$toString.call($) === "[object String]"; }
   function any2string($){ return isString($) ? $ : string($); }
 
