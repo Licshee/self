@@ -23,14 +23,17 @@ return $;
   this.isString = isString;
   this.any2string = any2string;
 
-  var wshOut = me.WScript && function($){ WScript.Echo($); };
-  this.log = wshOut || function($){ console.log($); };
-  this.msg = wshOut || function($){ alert($); };
-  var rxHTML = /\r\n|[\n\r&<>"]/g;
-  var mapHTML = { '\r\n': "<br/>", '\n': "<br/>", '\r': "<br/>", '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;" };
-  function escapeHTML($){ return mapHTML[$]; }
-  this.echo = wshOut || function($){
-    arguments.length && document.write(any2string($).replace(rxHTML, escapeHTML));
+  var rxEscapeHTML = /\r\n|[\n\r&<>"]/g;
+  var mapEscapeHTML = { '\r\n': "<br/>", '\n': "<br/>", '\r': "<br/>", '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;" };
+  function cbEscapeHTML($){ return mapEscapeHTML[$]; }
+  function escapeHTML($){ return any2string($).replace(rxEscapeHTML, cbEscapeHTML); };
+  this.escapeHTML = escapeHTML;
+
+  var stdOut = me.WScript && function($){ WScript.Echo($); };
+  this.log = stdOut || function($){ console.log($); };
+  this.msg = stdOut || function($){ alert($); };
+  this.echo = stdOut || function($){
+    arguments.length && document.write(escapeHTML($));
     document.write("<br/>");
   };
 });
