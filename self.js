@@ -26,14 +26,11 @@ return $;
   var wshOut = me.WScript && function($){ WScript.Echo($); };
   this.log = wshOut || function($){ console.log($); };
   this.msg = wshOut || function($){ alert($); };
-  this.echo = wshOut || function(){
-    var rx = /\r\n|[\n\r&<>"]/g;
-    var map = { '\r\n': "<br/>", '\n': "<br/>", '\r': "<br/>", '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;" };
-    function escape(m, x, h){ return map[m]; }
-    return function($){
-      document.writeln(arguments.length ?
-       any2string($).replace(rx, escape) + "<br/>"
-       : "<br/>");
-    };
-  }();
+  var rxHTML = /\r\n|[\n\r&<>"]/g;
+  var mapHTML = { '\r\n': "<br/>", '\n': "<br/>", '\r': "<br/>", '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;" };
+  function escapeHTML($){ return mapHTML[$]; }
+  this.echo = wshOut || function($){
+    arguments.length && document.write(any2string($).replace(rxHTML, escapeHTML));
+    document.write("<br/>");
+  };
 });
