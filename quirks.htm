@@ -2,7 +2,7 @@
 <script src="self.js"></script>
 <script>
 function demo($){
-  document.write("<pre>"), echo($), document.write("</pre>");
+  document.write("<pre>" + escapeHTML($) + "</pre>");
   $ = (isString($) ? new Function("return " + $) : $)();
   if($ !== void 0) echo($);
 }

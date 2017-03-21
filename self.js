@@ -24,7 +24,9 @@ return $;
   this.any2string = any2string;
 
   var rxEscapeHTML = /\r\n|[\n\r&<>"]/g;
-  var mapEscapeHTML = { '\r\n': "<br/>", '\n': "<br/>", '\r': "<br/>", '&': "&amp;", '<': "&lt;", '>': "&gt;", '"': "&quot;" };
+  var mapEscapeHTML = {
+   '"': "&quot;", '&': "&amp;", '<': "&lt;", '>': "&gt;",
+   '\n': "<br/>", '\r': "<br/>", '\r\n': "<br/>" };
   function cbEscapeHTML($){ return mapEscapeHTML[$]; }
   function escapeHTML($){ return any2string($).replace(rxEscapeHTML, cbEscapeHTML); };
   this.escapeHTML = escapeHTML;
@@ -33,7 +35,6 @@ return $;
   this.log = stdOut || function($){ console.log($); };
   this.msg = stdOut || function($){ alert($); };
   this.echo = stdOut || function($){
-    arguments.length && document.write(escapeHTML($));
-    document.write("<br/>");
+    document.write((arguments.length ? escapeHTML($) : "") + "<br/>");
   };
 });
